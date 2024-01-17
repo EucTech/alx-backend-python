@@ -9,7 +9,6 @@
     using sort() because of concurrency.
 """
 import asyncio
-import random
 from typing import List
 
 
@@ -18,5 +17,7 @@ wait_random = __import__("0-basic_async_syntax").wait_random
 
 async def wait_n(n: int, max_delay: float) -> List[float]:
     """wait_n function"""
-    delays = await asyncio.gather(*(wait_random(max_delay) for _ in range(n)))
-    return sorted(delays)
+    delay = await asyncio.gather(
+        *tuple(map(lambda _: wait_random(max_delay), range(n)))
+    )
+    return sorted(delay)
